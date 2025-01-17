@@ -33,6 +33,7 @@ phases:
       - echo post-build accID $AWS_ACCOUNT_ID and region $AWS_REGION
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/bankrepo/fundtransfer:$IMAGE_TAG
       - echo pushing the Docker image to AWS ECR...
+      - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '[{"name":"fundtransferms-service","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
@@ -48,5 +49,5 @@ phases:
 artifacts:
   files:
     - imagedefinitions.json
-    - build/libs/* .jar
+    - build/libs/*.jar
 discard-paths: yes
